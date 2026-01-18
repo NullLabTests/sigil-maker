@@ -1,24 +1,30 @@
 # Simple Chaos Sigil Maker
 
-A Python-based tool to generate chaos sigils from statements of intent. Vowels are removed, duplicates eliminated, and letters are artistically connected on a circle with smooth curves and gradient colors for a more polished look.
+A Python-based tool to generate chaos sigils from statements of intent using Gradio for a web interface or CLI.
 
 ## How it Works
 - Input a statement (e.g., "May all beings be at peace").
-- Vowels are stripped, duplicates removed (preserving order).
-- Letters placed on a circle.
-- Connected with quadratic Bezier curves for smoothness.
-- Saved as `sigil.png`.
+- Vowels are stripped, duplicates removed.
+- Letters placed on a circle with random offsets.
+- Connected with lines and optional curves.
+- Saved as `sigil.png` or displayed in web UI.
 
 ## Example
 ![Example Sigil](sigil.png)
 
 ## Usage
+For CLI:
 ```bash
 python sigil_maker.py "Your statement here"
 ```
+For web UI:
+```bash
+python sigil_maker.py
+```
+Visit http://localhost:7860
 
 ## Installation
-Requires Python 3 and pillow:
+Requires Python 3, gradio, and pillow:
 ```bash
-pip install pillow
+pip install gradio pillow
 ```

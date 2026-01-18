@@ -1,6 +1,7 @@
 # sigil_maker.py
-# Compatible with Gradio for web interface, but CLI runnable
+# Gradio-based chaos sigil generator with CLI fallback
 
+import gradio as gr
 from PIL import Image, ImageDraw
 import random
 import math
@@ -68,8 +69,31 @@ def generate_sigil(phrase):
     
     return img
 
+# Gradio interface
+demo = gr.Interface(
+    fn=generate_sigil,
+    inputs=gr.Textbox(
+        lines=2,
+        placeholder="I AM POWERFUL AND ABUNDANT",
+        label="Your Statement of Intent"
+    ),
+    outputs=gr.Image(
+        label="Your Sigil",
+        type='pil'
+    ),
+    title="Simple Chaos Sigil Maker",
+    description="Type desire → vowels removed → letters connected into glyph",
+    theme='dark',
+    live=False
+)
+
 if __name__ == '__main__':
-    statement = sys.argv[1] if len(sys.argv) > 1 else "May all beings be at peace"
-    img = generate_sigil(statement)
-    img.save('sigil.png')
-    print('Sigil saved to sigil.png')
+    if len(sys.argv) > 1:
+        img = generate_sigil(sys.argv[1])
+        img.save('sigil.png')
+        print('Sigil saved to sigil.png')
+    else:
+        demo.launch(
+            server_name='0.0.0.0',
+            server_port=7860
+        )
