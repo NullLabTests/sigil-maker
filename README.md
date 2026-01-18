@@ -18,7 +18,7 @@ python sigil_maker.py "Your statement here"
 ```
 
 ## Installation
-Requires Python 3, matplotlib, and numpy:
+Requires Python 3 and pillow:
 ```bash
-pip install matplotlib numpy
+pip install pillow
 ```
