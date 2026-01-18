@@ -1,11 +1,10 @@
 # sigil_maker.py
-# Gradio-based chaos sigil generator with CLI fallback
+# Gradio Blocks-based chaos sigil generator matching the UI layout
 
 import gradio as gr
 from PIL import Image, ImageDraw
 import random
 import math
-import sys
 
 def generate_sigil(phrase):
     if not phrase or not phrase.strip():
@@ -69,31 +68,18 @@ def generate_sigil(phrase):
     
     return img
 
-# Gradio interface
-demo = gr.Interface(
-    fn=generate_sigil,
-    inputs=gr.Textbox(
-        lines=2,
-        placeholder="I AM POWERFUL AND ABUNDANT",
-        label="Your Statement of Intent"
-    ),
-    outputs=gr.Image(
-        label="Your Sigil",
-        type='pil'
-    ),
-    title="Simple Chaos Sigil Maker",
-    description="Type desire → vowels removed → letters connected into glyph",
-    theme='dark',
-    live=False
-)
+with gr.Blocks(title="Simple Chaos Sigil Maker") as demo:
+    gr.Markdown('Type desire ~ vowels removed ~ letters connected into glyph')
+    with gr.Row():
+        with gr.Column(scale=1):
+            input_text = gr.Textbox(label='Your Statement of Intent', value='May all beings be at peace')
+            with gr.Row():
+                clear_btn = gr.Button('Clear')
+                submit_btn = gr.Button('Submit', variant='primary')
+        output_image = gr.Image(label="Your Sigil", type="pil", interactive=False)
+    flag_btn = gr.Button('Flag')
+    submit_btn.click(generate_sigil, inputs=input_text, outputs=output_image)
+    clear_btn.click(lambda: '', outputs=input_text)
 
 if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        img = generate_sigil(sys.argv[1])
-        img.save('sigil.png')
-        print('Sigil saved to sigil.png')
-    else:
-        demo.launch(
-            server_name='0.0.0.0',
-            server_port=7860
-        )
+    demo.launch(server_name="0.0.0.0", server_port=7860)
